@@ -18,6 +18,8 @@ app.get('/hello', (req, resp) => {
     return resp.send('Hello World!');
 })
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
-})
+});
+
+module.exports = { app, server };

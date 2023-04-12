@@ -29,7 +29,6 @@ const USER_ROUTES = [
     {
         url: '/users/:user_id',
         auth: true,
-        creditCheck: true,
         proxy: {
             target: `${userMicroserviceTarget}`,
             changeOrigin: true,
