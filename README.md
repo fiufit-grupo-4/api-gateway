@@ -14,4 +14,4 @@
 
 #### Run tests with coverage:
 
-```$ npm npm run test-cov```
+```$ npm run test-cov```
