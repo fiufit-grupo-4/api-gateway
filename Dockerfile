@@ -9,7 +9,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # dependencies clean install
-RUN npm ci
+RUN npm install
 
 # copy app from host to container
 ADD app/ app/

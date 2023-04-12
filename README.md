@@ -1,13 +1,9 @@
 ## API Gateway
 
-### Install:
+#### Install:
 
-```$ npm ci```
+```$ npm install```
 
-### Execute:
+#### Execute:
 
 ```$ npm start```
-
-### Build container:
-
-```$ docker image build -t fiufit/api-gateway:latest .```
