@@ -16,6 +16,17 @@ const USER_ROUTES = [
         }
     },
     {
+        url: '/signup',
+        auth: false,
+        proxy: {
+            target: `${userMicroserviceTarget}/signup/`,
+            changeOrigin: true, // changes the origin of the host header to the target URL
+            pathRewrite: {
+                [`^/signup`]: '',
+            },
+        }
+    },
+    {
         url: '/users',
         auth: true,
         proxy: {
