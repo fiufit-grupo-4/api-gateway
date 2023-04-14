@@ -28,6 +28,8 @@
     "jsonwebtoken": "^9.0.0",
     "moment": "^2.29.4",
     "morgan": "^1.10.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.2",
     "validator": "^13.9.0"
   }
 }
