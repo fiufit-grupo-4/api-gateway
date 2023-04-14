@@ -4,10 +4,12 @@ const express = require('express')
 const {setupLogging} = require("./logging");
 const {setupProxies} = require("./proxy");
 const {setupAuth} = require("./auth");
+const cors = require('cors');
 
 dotenv.config();
-
 const app = express()
+app.use(cors());
+
 const port = process.env.PORT;
 
 setupLogging(app);
