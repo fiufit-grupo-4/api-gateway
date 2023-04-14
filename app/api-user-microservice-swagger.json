@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.2",
     "info": {
-        "title": "API Gateway - FIUTFIT",
+        "title": "API Gateway - FIUFIT",
         "version": "1.0.0"
     },
     "security": [
