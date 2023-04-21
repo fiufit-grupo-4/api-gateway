@@ -21,10 +21,46 @@
                     {
                         "required": false,
                         "schema": {
-                            "title": "Mail Filter",
+                            "title": "Limit",
+                            "maximum": 1024.0,
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "default": 128
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Name",
+                            "maxLength": 256,
+                            "minLength": 1,
                             "type": "string"
                         },
-                        "name": "mail_filter",
+                        "name": "name",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Lastname",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "lastname",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Age",
+                            "maxLength": 3,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "age",
                         "in": "query"
                     }
                 ],
@@ -33,7 +69,13 @@
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "title": "Response Get Users Users  Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserResponse"
+                                    }
+                                }
                             }
                         }
                     },
@@ -57,6 +99,94 @@
                 ],
                 "summary": "Get User",
                 "operationId": "get_user_users__user_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Id",
+                            "type": "string"
+                        },
+                        "name": "user_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Routes - User microservice"
+                ],
+                "summary": "Update Put Users",
+                "operationId": "update_put_users_users__user_id__put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Id",
+                            "type": "string"
+                        },
+                        "name": "user_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdatePutUserRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Routes - User microservice"
+                ],
+                "summary": "Delete User",
+                "operationId": "delete_user_users__user_id__delete",
                 "parameters": [
                     {
                         "required": true,
@@ -138,94 +268,6 @@
                 }
             }
         },
-        "/users/{mail}": {
-            "put": {
-                "tags": [
-                    "Routes - User microservice"
-                ],
-                "summary": "Update User",
-                "operationId": "update_user_users__mail__put",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Mail",
-                            "type": "string"
-                        },
-                        "name": "mail",
-                        "in": "path"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UserBasicCredentials"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Routes - User microservice"
-                ],
-                "summary": "Delete User",
-                "operationId": "delete_user_users__mail__delete",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Mail",
-                            "type": "string"
-                        },
-                        "name": "mail",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/login/": {
             "post": {
                 "tags": [
@@ -284,11 +326,13 @@
                     "required": true
                 },
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
                             }
                         }
                     },
@@ -330,17 +374,60 @@
                     }
                 }
             },
-            "UpdateUserRequest": {
-                "title": "UpdateUserRequest",
+            "UpdatePutUserRequest": {
+                "title": "UpdatePutUserRequest",
                 "required": [
-                    "mail"
+                    "password"
                 ],
                 "type": "object",
                 "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "title": "Lastname",
+                        "type": "string"
+                    },
+                    "age": {
+                        "title": "Age",
+                        "type": "string"
+                    },
                     "mail": {
                         "title": "Mail",
                         "type": "string",
                         "format": "email"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "type": "string"
+                    }
+                }
+            },
+            "UpdateUserRequest": {
+                "title": "UpdateUserRequest",
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "title": "Lastname",
+                        "type": "string"
+                    },
+                    "age": {
+                        "title": "Age",
+                        "type": "string"
+                    },
+                    "mail": {
+                        "title": "Mail",
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "type": "string"
                     }
                 }
             },
@@ -354,11 +441,45 @@
                 "properties": {
                     "mail": {
                         "title": "Mail",
-                        "type": "string"
+                        "type": "string",
+                        "format": "email",
+                        "example": "username@mail.com"
                     },
                     "password": {
                         "title": "Password",
+                        "type": "string",
+                        "example": "secure"
+                    }
+                }
+            },
+            "UserResponse": {
+                "title": "UserResponse",
+                "required": [
+                    "id",
+                    "mail"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
                         "type": "string"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "lastname": {
+                        "title": "Lastname",
+                        "type": "string"
+                    },
+                    "age": {
+                        "title": "Age",
+                        "type": "string"
+                    },
+                    "mail": {
+                        "title": "Mail",
+                        "type": "string",
+                        "format": "email"
                     }
                 }
             },

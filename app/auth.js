@@ -11,36 +11,32 @@ const setupAuth = (app, routes) => {
             app.use(r.url, (req, res, next) => {
                 const authHeader = req.headers.authorization;
                 if (!authHeader) {
-                    return res.status(401).json({ error: 'Auth header not found' });
+                    return res.status(401).json({ error: 'NOT AUTHORIZED. ACCESS TOKEN REQUIRED' });
                 }
 
                 const token = authHeader.split(' ')[1];
                 if (!token) {
-                    return res.status(401).json({ error: 'Token not found in auth header' });
+                    return res.status(401).json({ error: 'NOT AUTHORIZED. ACCESS TOKEN REQUIRED' });
                 }
 
                 try {
                     const decoded = jwt.verify(token, process.env.JWT_SECRET); // TODO: complete JWT_SECRET at .env
                     if (!decoded.exp || decoded.exp <= moment().unix() || !decoded.iat || decoded.iat > moment().unix()) {
-                        return res.status(401).json({ error: 'Without (or invalid) exp/iat time'})
+                        return res.status(401).json({ error: 'NOT AUTHORIZED. ACCESS TOKEN DENIED' });
                     }
 
-                    if (!decoded._id || !decoded.mail) {
-                        return res.status(401).json({ error: 'Missing user information in token' });
+                    if (!decoded.id) {
+                        return res.status(401).json({ error: 'NOT AUTHORIZED. ACCESS TOKEN DENIED' });
                     }
 
-                    if (!validator.isEmail(decoded.mail)) {
-                        return res.status(401).json({ error: 'Invalid mail in token' });
-                    }
-
-                    if (!validator.isMongoId(decoded._id)) {
-                        return res.status(401).json({ error: 'Invalid id in token' });
+                    if (!validator.isMongoId(decoded.id)) {
+                        return res.status(401).json({ error: 'NOT AUTHORIZED. ACCESS TOKEN DENIED' });
                     }
 
                     req.user = decoded; // "decoded" has data included when the token was generated
                     next();
                 } catch (err) {
-                    return res.status(401).json({ error: 'JWT Verify with error: ' + err });
+                    return res.status(401).json({ error: 'NOT AUTHORIZED. ACCESS TOKEN DENIED' });
                 }
             });
         }
