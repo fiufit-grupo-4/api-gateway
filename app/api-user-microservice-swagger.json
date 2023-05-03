@@ -13,7 +13,7 @@
         "/users/": {
             "get": {
                 "tags": [
-                    "Routes - User microservice"
+                    "General Routes - User microservice"
                 ],
                 "summary": "Get Users",
                 "operationId": "get_users_users__get",
@@ -92,10 +92,31 @@
                 }
             }
         },
+        "/users/me": {
+            "get": {
+                "tags": [
+                    "General Routes - User microservice"
+                ],
+                "summary": "Get Me",
+                "operationId": "get_me_users_me_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/{user_id}": {
             "get": {
                 "tags": [
-                    "Routes - User microservice"
+                    "General Routes - User microservice"
                 ],
                 "summary": "Get User",
                 "operationId": "get_user_users__user_id__get",
@@ -133,57 +154,9 @@
                     }
                 }
             },
-            "put": {
-                "tags": [
-                    "Routes - User microservice"
-                ],
-                "summary": "Update Put Users",
-                "operationId": "update_put_users_users__user_id__put",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "User Id",
-                            "type": "string"
-                        },
-                        "name": "user_id",
-                        "in": "path"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/UpdatePutUserRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
             "delete": {
                 "tags": [
-                    "Routes - User microservice"
+                    "General Routes - User microservice"
                 ],
                 "summary": "Delete User",
                 "operationId": "delete_user_users__user_id__delete",
@@ -221,7 +194,7 @@
             },
             "patch": {
                 "tags": [
-                    "Routes - User microservice"
+                    "General Routes - User microservice"
                 ],
                 "summary": "Update Users",
                 "operationId": "update_users_users__user_id__patch",
@@ -268,10 +241,101 @@
                 }
             }
         },
+        "/login/forgot_password": {
+            "post": {
+                "tags": [
+                    "Login & Signup - User microservice"
+                ],
+                "summary": "Forgot Password",
+                "operationId": "forgot_password_login_forgot_password_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserForgotPasswordCredential"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/login/reset_password/{validation_token}": {
+            "post": {
+                "tags": [
+                    "Login & Signup - User microservice"
+                ],
+                "summary": "Reset Password",
+                "operationId": "reset_password_login_reset_password__validation_token__post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Validation Code",
+                            "type": "string"
+                        },
+                        "name": "validation_code",
+                        "in": "query"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserResetPasswordCredential"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
         "/login/": {
             "post": {
                 "tags": [
-                    "Login - User microservice"
+                    "Login & Signup - User microservice"
                 ],
                 "summary": "Login",
                 "operationId": "login_login__post",
@@ -311,7 +375,7 @@
         "/signup/": {
             "post": {
                 "tags": [
-                    "Signup - User microservice"
+                    "Login & Signup - User microservice"
                 ],
                 "summary": "Signup",
                 "operationId": "signup_signup__post",
@@ -349,6 +413,611 @@
                 },
                 "security": []
             }
+        },
+        "/trainings/": {
+            "get": {
+                "tags": [
+                    "General routes - Training microservice"
+                ],
+                "summary": "Get all trainings. Include query params to filter",
+                "operationId": "get_trainings_trainings__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "maximum": 1024.0,
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "default": 128
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Title",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "title",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Description",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "description",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Type",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Difficulty",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "difficulty",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Id Trainer",
+                            "type": "string"
+                        },
+                        "name": "id_trainer",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Score",
+                            "maximum": 5.0,
+                            "minimum": 1.0,
+                            "type": "integer"
+                        },
+                        "name": "score",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Trainings Trainings  Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TrainingResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainings/{training_id}": {
+            "get": {
+                "tags": [
+                    "General routes - Training microservice"
+                ],
+                "summary": "Get a specific training by training_id",
+                "operationId": "get_training_by_id_trainings__training_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Training Id",
+                            "type": "string"
+                        },
+                        "name": "training_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainingResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainers/me/trainings/": {
+            "get": {
+                "tags": [
+                    "CRUD for Trainers - Training microservice"
+                ],
+                "summary": "Get all trainings created by me. Include query params to filter",
+                "operationId": "get_training_created_trainers_me_trainings__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "maximum": 1024.0,
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "default": 128
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Title",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "title",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Description",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "description",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Type",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Difficulty",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "difficulty",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Id Trainer",
+                            "type": "string"
+                        },
+                        "name": "id_trainer",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Score",
+                            "maximum": 5.0,
+                            "minimum": 1.0,
+                            "type": "integer"
+                        },
+                        "name": "score",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Training Created Trainers Me Trainings  Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TrainingResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "CRUD for Trainers - Training microservice"
+                ],
+                "summary": "Create training by me",
+                "operationId": "add_training_trainers_me_trainings__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TrainingRequestPost"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainingResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainings/{training_id}/score": {
+            "post": {
+                "tags": [
+                    "Scores - Training microservice"
+                ],
+                "summary": "Create my unique score qualitifation for training",
+                "operationId": "add_score_trainings__training_id__score_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Training Id",
+                            "type": "string"
+                        },
+                        "name": "training_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ScoreRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ScoreResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Scores - Training microservice"
+                ],
+                "summary": "Delete my unique score qualitifation for an training",
+                "operationId": "delete_score_trainings__training_id__score_delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Training Id",
+                            "type": "string"
+                        },
+                        "name": "training_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Scores - Training microservice"
+                ],
+                "summary": "Modify my unique score qualitifation for an training",
+                "operationId": "modify_score_trainings__training_id__score_patch",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Training Id",
+                            "type": "string"
+                        },
+                        "name": "training_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ScoreRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainings/{training_id}/comment": {
+            "post": {
+                "tags": [
+                    "Comments - Training microservice"
+                ],
+                "summary": "Create my comment for a training",
+                "operationId": "add_qualification_comment_trainings__training_id__comment_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Training Id",
+                            "type": "string"
+                        },
+                        "name": "training_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CommentRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/trainings/{training_id}/comment/{comment_id}": {
+            "delete": {
+                "tags": [
+                    "Comments - Training microservice"
+                ],
+                "summary": "Delete my comment for a training",
+                "operationId": "delete_comment_trainings__training_id__comment__comment_id__delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Training Id",
+                            "type": "string"
+                        },
+                        "name": "training_id",
+                        "in": "path"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Comment Id",
+                            "type": "string"
+                        },
+                        "name": "comment_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Comments - Training microservice"
+                ],
+                "summary": "Modify my comment for a training",
+                "operationId": "modify_comment_trainings__training_id__comment__comment_id__patch",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Training Id",
+                            "type": "string"
+                        },
+                        "name": "training_id",
+                        "in": "path"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Comment Id",
+                            "type": "string"
+                        },
+                        "name": "comment_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CommentRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CommentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -361,19 +1030,6 @@
             }
         },
         "schemas": {
-            "HTTPValidationError": {
-                "title": "HTTPValidationError",
-                "type": "object",
-                "properties": {
-                    "detail": {
-                        "title": "Detail",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/ValidationError"
-                        }
-                    }
-                }
-            },
             "UpdatePutUserRequest": {
                 "title": "UpdatePutUserRequest",
                 "required": [
@@ -404,6 +1060,295 @@
                     }
                 }
             },
+            "Rating": {
+                "title": "Rating",
+                "required": [
+                    "id_trainer"
+                ],
+                "type": "object",
+                "properties": {
+                    "id_trainer": {
+                        "title": "Id Trainer",
+                        "type": "string"
+                    },
+                    "score": {
+                        "title": "Score",
+                        "maximum": 5.0,
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "comment": {
+                        "title": "Comment",
+                        "type": "string"
+                    }
+                }
+            },
+            "Comment": {
+                "title": "Comment",
+                "required": [
+                    "id_user"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "id_user": {
+                        "title": "Id User",
+                        "type": "string"
+                    },
+                    "detail": {
+                        "title": "Detail",
+                        "maxLength": 256,
+                        "minLength": 1,
+                        "type": "string"
+                    }
+                }
+            },
+            "CommentRequest": {
+                "title": "CommentRequest",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "maxLength": 256,
+                        "minLength": 1,
+                        "type": "string"
+                    }
+                }
+            },
+            "CommentResponse": {
+                "title": "CommentResponse",
+                "required": [
+                    "id",
+                    "id_user"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "id_user": {
+                        "title": "Id User",
+                        "type": "string"
+                    },
+                    "detail": {
+                        "title": "Detail",
+                        "maxLength": 256,
+                        "minLength": 1,
+                        "type": "string"
+                    }
+                }
+            },
+            "Difficulty": {
+                "title": "Difficulty",
+                "enum": [
+                    "Fácil",
+                    "Intermedia",
+                    "Difícil"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "Media": {
+                "title": "Media",
+                "type": "object",
+                "properties": {
+                    "media_type": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/MediaType"
+                            }
+                        ],
+                        "example": "image"
+                    },
+                    "url": {
+                        "title": "Url",
+                        "type": "string",
+                        "example": "https://www.example.com/image.png"
+                    }
+                }
+            },
+            "MediaType": {
+                "title": "MediaType",
+                "enum": [
+                    "image",
+                    "video"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "Score": {
+                "title": "Score",
+                "required": [
+                    "id_user"
+                ],
+                "type": "object",
+                "properties": {
+                    "id_user": {
+                        "title": "Id User",
+                        "type": "string"
+                    },
+                    "qualification": {
+                        "title": "Qualification",
+                        "maximum": 5.0,
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
+            "ScoreRequest": {
+                "title": "ScoreRequest",
+                "type": "object",
+                "properties": {
+                    "qualification": {
+                        "title": "Qualification",
+                        "maximum": 5.0,
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
+            "ScoreResponse": {
+                "title": "ScoreResponse",
+                "required": [
+                    "id_user"
+                ],
+                "type": "object",
+                "properties": {
+                    "id_user": {
+                        "title": "Id User",
+                        "type": "string"
+                    },
+                    "qualification": {
+                        "title": "Qualification",
+                        "maximum": 5.0,
+                        "minimum": 1.0,
+                        "type": "integer"
+                    }
+                }
+            },
+            "TrainingRequestPost": {
+                "title": "TrainingRequestPost",
+                "required": [
+                    "title",
+                    "description",
+                    "type",
+                    "difficulty"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TrainingTypes"
+                    },
+                    "difficulty": {
+                        "$ref": "#/components/schemas/Difficulty"
+                    },
+                    "media": {
+                        "title": "Media",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Media"
+                        }
+                    }
+                }
+            },
+            "TrainingResponse": {
+                "title": "TrainingResponse",
+                "required": [
+                    "id_trainer",
+                    "title",
+                    "description",
+                    "type",
+                    "difficulty"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "id_trainer": {
+                        "title": "Id Trainer",
+                        "type": "string"
+                    },
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TrainingTypes"
+                    },
+                    "difficulty": {
+                        "$ref": "#/components/schemas/Difficulty"
+                    },
+                    "media": {
+                        "title": "Media",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Media"
+                        },
+                        "default": []
+                    },
+                    "comments": {
+                        "title": "Comments",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Comment"
+                        },
+                        "default": []
+                    },
+                    "scores": {
+                        "title": "Scores",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Score"
+                        },
+                        "default": []
+                    },
+                    "blocked": {
+                        "title": "Blocked",
+                        "type": "boolean",
+                        "default": false
+                    }
+                }
+            },
+            "TrainingTypes": {
+                "title": "TrainingTypes",
+                "enum": [
+                    "Caminata",
+                    "Running"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
             "UpdateUserRequest": {
                 "title": "UpdateUserRequest",
                 "type": "object",
@@ -428,6 +1373,10 @@
                     "password": {
                         "title": "Password",
                         "type": "string"
+                    },
+                    "image": {
+                        "title": "Image",
+                        "type": "string"
                     }
                 }
             },
@@ -435,7 +1384,8 @@
                 "title": "UserBasicCredentials",
                 "required": [
                     "mail",
-                    "password"
+                    "password",
+                    "role"
                 ],
                 "type": "object",
                 "properties": {
@@ -447,6 +1397,47 @@
                     },
                     "password": {
                         "title": "Password",
+                        "type": "string",
+                        "example": "secure"
+                    },
+                    "role": {
+                        "title": "Role",
+                        "type": "integer",
+                        "example": 3
+                    }
+                }
+            },
+            "UserForgotPasswordCredential": {
+                "title": "UserForgotPasswordCredential",
+                "required": [
+                    "mail"
+                ],
+                "type": "object",
+                "properties": {
+                    "mail": {
+                        "title": "Mail",
+                        "type": "string",
+                        "format": "email",
+                        "example": "username@mail.com"
+                    }
+                }
+            },
+            "UserResetPasswordCredential": {
+                "title": "UserResetPasswordCredential",
+                "required": [
+                    "mail",
+                    "new_password"
+                ],
+                "type": "object",
+                "properties": {
+                    "mail": {
+                        "title": "Mail",
+                        "type": "string",
+                        "format": "email",
+                        "example": "username@mail.com"
+                    },
+                    "new_password": {
+                        "title": "New Password",
                         "type": "string",
                         "example": "secure"
                     }
@@ -480,6 +1471,10 @@
                         "title": "Mail",
                         "type": "string",
                         "format": "email"
+                    },
+                    "image": {
+                        "title": "Image",
+                        "type": "string"
                     }
                 }
             },

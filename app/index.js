@@ -1,5 +1,6 @@
 const dotenv = require('dotenv');
 const {USER_ROUTES} = require("./user-routes");
+const {TRAINING_ROUTES} = require("./training-routes");
 const express = require('express')
 const {setupLogging} = require("./logging");
 const {setupProxies} = require("./proxy");
@@ -15,12 +16,17 @@ app.use(cors());
 const port = process.env.PORT;
 const swaggerUiOptions = {
     explorer: true
-  };
+};
+
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 setupLogging(app);
+
 setupAuth(app, USER_ROUTES);
 setupProxies(app, USER_ROUTES);
+
+setupAuth(app, TRAINING_ROUTES);
+setupProxies(app, TRAINING_ROUTES);
 
 app.get('/hello', (req, resp) => {
     return resp.send('Hello World!');
