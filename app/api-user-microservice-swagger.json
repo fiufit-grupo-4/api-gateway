@@ -349,6 +349,231 @@
                 },
                 "security": []
             }
+        },
+        "/trainings/": {
+            "get": {
+                "tags": [
+                    "Routes - Training microservice"
+                ],
+                "summary": "Get Trainings",
+                "operationId": "get_trainings_trainings__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "maximum": 1024.0,
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "default": 128
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Type",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Difficulty",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "difficulty",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Trainings Trainings  Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TrainingResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/trainings/{training_id}": {
+            "get": {
+                "tags": [
+                    "Routes - Training microservice"
+                ],
+                "summary": "Get a training by id",
+                "operationId": "get_training_by_id_trainings__training_id__get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Training Id",
+                            "type": "string"
+                        },
+                        "name": "training_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainingResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/trainers/me/trainings/": {
+            "get": {
+                "tags": [
+                    "Routes - Training microservice"
+                ],
+                "summary": "Get trainings created by me",
+                "operationId": "get_training_created_trainers_me_trainings__get",
+                "parameters": [
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Limit",
+                            "maximum": 1024.0,
+                            "minimum": 1.0,
+                            "type": "integer",
+                            "default": 128
+                        },
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Type",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "type",
+                        "in": "query"
+                    },
+                    {
+                        "required": false,
+                        "schema": {
+                            "title": "Difficulty",
+                            "maxLength": 256,
+                            "minLength": 1,
+                            "type": "string"
+                        },
+                        "name": "difficulty",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "Response Get Training Created Trainers Me Trainings  Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TrainingResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Routes - Training microservice"
+                ],
+                "summary": "Create training",
+                "operationId": "add_training_trainers_me_trainings__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TrainingRequestPost"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TrainingResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -508,6 +733,157 @@
                         "type": "string"
                     }
                 }
+            },
+            "Difficulty": {
+                "title": "Difficulty",
+                "enum": [
+                    "Fácil",
+                    "Intermedia",
+                    "Difícil"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "Media": {
+                "title": "Media",
+                "required": [
+                    "media_type",
+                    "url"
+                ],
+                "type": "object",
+                "properties": {
+                    "media_type": {
+                        "$ref": "#/components/schemas/MediaType"
+                    },
+                    "url": {
+                        "title": "Url",
+                        "type": "string"
+                    }
+                }
+            },
+            "MediaType": {
+                "title": "MediaType",
+                "enum": [
+                    "image",
+                    "video"
+                ],
+                "type": "string",
+                "description": "An enumeration."
+            },
+            "Rating": {
+                "title": "Rating",
+                "required": [
+                    "id_trainer"
+                ],
+                "type": "object",
+                "properties": {
+                    "id_trainer": {
+                        "title": "Id Trainer",
+                        "type": "string"
+                    },
+                    "score": {
+                        "title": "Score",
+                        "maximum": 5.0,
+                        "minimum": 1.0,
+                        "type": "integer"
+                    },
+                    "comment": {
+                        "title": "Comment",
+                        "type": "string"
+                    }
+                }
+            },
+            "TrainingRequestPost": {
+                "title": "TrainingRequestPost",
+                "required": [
+                    "title",
+                    "description",
+                    "type",
+                    "difficulty"
+                ],
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TrainingTypes"
+                    },
+                    "difficulty": {
+                        "$ref": "#/components/schemas/Difficulty"
+                    },
+                    "media": {
+                        "title": "Media",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Media"
+                        }
+                    }
+                }
+            },
+            "TrainingResponse": {
+                "title": "TrainingResponse",
+                "required": [
+                    "id_trainer",
+                    "title",
+                    "description",
+                    "type",
+                    "difficulty"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "title": "Id",
+                        "type": "string"
+                    },
+                    "id_trainer": {
+                        "title": "Id Trainer",
+                        "type": "string"
+                    },
+                    "title": {
+                        "title": "Title",
+                        "type": "string"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "type": "string"
+                    },
+                    "type": {
+                        "$ref": "#/components/schemas/TrainingTypes"
+                    },
+                    "difficulty": {
+                        "$ref": "#/components/schemas/Difficulty"
+                    },
+                    "media": {
+                        "title": "Media",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Media"
+                        }
+                    },
+                    "rating": {
+                        "$ref": "#/components/schemas/Rating"
+                    },
+                    "blocked": {
+                        "title": "Blocked",
+                        "type": "boolean",
+                        "default": false
+                    }
+                }
+            },
+            "TrainingTypes": {
+                "title": "TrainingTypes",
+                "enum": [
+                    "Caminata",
+                    "Running"
+                ],
+                "type": "string",
+                "description": "An enumeration."
             }
         }
     }
