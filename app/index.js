@@ -28,13 +28,6 @@ setupProxies(app, USER_ROUTES);
 setupAuth(app, TRAINING_ROUTES);
 setupProxies(app, TRAINING_ROUTES);
 
-app.get('/hello', (req, resp) => {
-    return resp.send('Hello World!');
-})
-
-app.get('/', (req, resp) => {
-    return resp.send('OK');
-})
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
