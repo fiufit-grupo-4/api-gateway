@@ -92,6 +92,86 @@
                 }
             }
         },
+        "/users/{user_id}/block": {
+            "patch": {
+                "tags": [
+                    "General Routes - User microservice"
+                ],
+                "summary": "Block User",
+                "operationId": "block_user_users__user_id__block_patch",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Id",
+                            "type": "string"
+                        },
+                        "name": "user_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/unblock": {
+            "patch": {
+                "tags": [
+                    "General Routes - User microservice"
+                ],
+                "summary": "Unblock User",
+                "operationId": "unblock_user_users__user_id__unblock_patch",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "User Id",
+                            "type": "string"
+                        },
+                        "name": "user_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/users/me": {
             "get": {
                 "tags": [
@@ -281,13 +361,13 @@
                 "security": []
             }
         },
-        "/login/reset_password/{validation_token}": {
+        "/login/reset_password/{validation_code}": {
             "post": {
                 "tags": [
                     "Login & Signup - User microservice"
                 ],
                 "summary": "Reset Password",
-                "operationId": "reset_password_login_reset_password__validation_token__post",
+                "operationId": "reset_password_login_reset_password__validation_code__post",
                 "parameters": [
                     {
                         "required": true,
@@ -296,7 +376,7 @@
                             "type": "string"
                         },
                         "name": "validation_code",
-                        "in": "query"
+                        "in": "path"
                     }
                 ],
                 "requestBody": {
@@ -304,6 +384,46 @@
                         "application/json": {
                             "schema": {
                                 "$ref": "#/components/schemas/UserResetPasswordCredential"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": []
+            }
+        },
+        "/login/google": {
+            "post": {
+                "tags": [
+                    "Login & Signup - User microservice"
+                ],
+                "summary": "Login Google",
+                "operationId": "login_google_login_google_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GoogleLoginRequest"
                             }
                         }
                     },
@@ -958,65 +1078,6 @@
                         }
                     }
                 }
-            },
-            "patch": {
-                "tags": [
-                    "Comments - Training microservice"
-                ],
-                "summary": "Modify my comment for a training",
-                "operationId": "modify_comment_trainings__training_id__comment__comment_id__patch",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Training Id",
-                            "type": "string"
-                        },
-                        "name": "training_id",
-                        "in": "path"
-                    },
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Comment Id",
-                            "type": "string"
-                        },
-                        "name": "comment_id",
-                        "in": "path"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/CommentRequest"
-                            }
-                        }
-                    },
-                    "required": true
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CommentResponse"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
             }
         }
     },
@@ -1336,6 +1397,19 @@
                 "type": "string",
                 "description": "An enumeration."
             },
+            "GoogleLoginRequest": {
+                "title": "GoogleLoginRequest",
+                "required": [
+                    "id_token"
+                ],
+                "type": "object",
+                "properties": {
+                    "id_token": {
+                        "title": "Id Token",
+                        "type": "string"
+                    }
+                }
+            },
             "HTTPValidationError": {
                 "title": "HTTPValidationError",
                 "type": "object",
@@ -1475,6 +1549,10 @@
                     "image": {
                         "title": "Image",
                         "type": "string"
+                    },
+                    "blocked": {
+                        "title": "Blocked",
+                        "type": "boolean"
                     }
                 }
             },
