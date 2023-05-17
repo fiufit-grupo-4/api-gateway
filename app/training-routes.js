@@ -8,7 +8,7 @@ const trainingMicroserviceTarget = process.env.TRAINING_MICROSERVICE
 const TRAINING_ROUTES = [
     {
         url: '/trainings',
-        auth: false,
+        auth: true,
         role: UserRoles.ATLETA,
         proxy: {
             target: `${trainingMicroserviceTarget}/trainings/`,
@@ -31,8 +31,40 @@ const TRAINING_ROUTES = [
         }
     },
     {
+        url: '/trainings/:training_id/block',
+        auth: true,
+        role: UserRoles.ADMIN,
+        proxy: {
+            target: `${trainingMicroserviceTarget}`,
+            changeOrigin: true,
+            pathRewrite: {
+                '^/trainings': '',
+            },
+            onProxyReq: (proxyReq, req, res) => {
+                const { training_id } = req.params;
+                proxyReq.path = `/trainings/${training_id}/block`;
+            }
+        }
+    },
+    {
+        url: '/trainings/:training_id/unblock',
+        auth: true,
+        role: UserRoles.ADMIN,
+        proxy: {
+            target: `${trainingMicroserviceTarget}`,
+            changeOrigin: true,
+            pathRewrite: {
+                '^/trainings': '',
+            },
+            onProxyReq: (proxyReq, req, res) => {
+                const { training_id } = req.params;
+                proxyReq.path = `/trainings/${training_id}/unblock`;
+            }
+        }
+    },
+    {
         url: '/trainings/:training_id',
-        auth: false,
+        auth: true,
         role: UserRoles.ATLETA,
         proxy: {
             target: `${trainingMicroserviceTarget}`,
