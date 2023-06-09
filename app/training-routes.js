@@ -31,6 +31,54 @@ const TRAINING_ROUTES = [
         }
     },
     {
+        url: '/athletes/me/trainings/:training_id/start',
+        auth: true,
+        role: UserRoles.ATLETA,
+        proxy: {
+            target: `${trainingMicroserviceTarget}`,
+            changeOrigin: true,
+            pathRewrite: {
+                '^/athletes/me/trainings': '',
+            },
+            onProxyReq: (proxyReq, req, res) => {
+                const { training_id } = req.params;
+                proxyReq.path = `/athletes/me/trainings/${training_id}/start`;
+            }
+        }
+    },
+    {
+        url: '/athletes/me/trainings/:training_id/stop',
+        auth: true,
+        role: UserRoles.ATLETA,
+        proxy: {
+            target: `${trainingMicroserviceTarget}`,
+            changeOrigin: true,
+            pathRewrite: {
+                '^/athletes/me/trainings': '',
+            },
+            onProxyReq: (proxyReq, req, res) => {
+                const { training_id } = req.params;
+                proxyReq.path = `/athletes/me/trainings/${training_id}/stop`;
+            }
+        }
+    },
+    {
+        url: '/athletes/me/trainings/:training_id/complete',
+        auth: true,
+        role: UserRoles.ATLETA,
+        proxy: {
+            target: `${trainingMicroserviceTarget}`,
+            changeOrigin: true,
+            pathRewrite: {
+                '^/athletes/me/trainings': '',
+            },
+            onProxyReq: (proxyReq, req, res) => {
+                const { training_id } = req.params;
+                proxyReq.path = `/athletes/me/trainings/${training_id}/complete`;
+            }
+        }
+    },
+    {
         url: '/trainings/:training_id/block',
         auth: true,
         role: UserRoles.ADMIN,
