@@ -5,14 +5,16 @@ const generateSwaggerDocument = async () => {
     let usuariosSolicitud = fetch(process.env.USER_MICROSERVICE + '/openapi.json');
     let entrenamientosSolicitud = fetch(process.env.TRAINING_MICROSERVICE + '/openapi.json');
     let goalsSolicitud = fetch(process.env.GOALS_MICROSERVICE + '/openapi.json');
+    let metricsSolicitud = fetch(process.env.METRICS_MICROSERVICE + '/openapi.json');
 
     try {
-        let respuestas = await Promise.all([usuariosSolicitud, entrenamientosSolicitud, goalsSolicitud]).then(values => {
+        let respuestas = await Promise.all([usuariosSolicitud, entrenamientosSolicitud, goalsSolicitud, metricsSolicitud]).then(values => {
             return Promise.all(values.map(value => value.json()));
         });
         let usuariosDocs = respuestas[0];
         let entrenamientosDocs = respuestas[1];
         let goalsDocs = respuestas[2];
+        let metricsDocs = respuestas[3];
 
         let swaggerDocumentMerged = {
             "openapi": "3.0.2",
@@ -30,6 +32,8 @@ const generateSwaggerDocument = async () => {
         // no haria falta si se lo borra en user microservice
         delete usuariosDocs.paths["/"];
         delete goalsDocs.paths["/"];
+        delete metricsDocs.paths["/entries/"];
+        delete metricsDocs.paths["/entries/{id}"];
 
         // no haria falta si en user microservice se le agrega el tag a cada path! 
         // en training microservice ya esta eso
@@ -54,8 +58,8 @@ const generateSwaggerDocument = async () => {
             }
         }
 
-        swaggerDocumentMerged.paths = { ...usuariosDocs.paths, ...entrenamientosDocs.paths, ...goalsDocs.paths };
-        const schemes = { ...usuariosDocs.components.schemas, ...entrenamientosDocs.components.schemas , ...goalsDocs.components.schemas };
+        swaggerDocumentMerged.paths = { ...usuariosDocs.paths, ...entrenamientosDocs.paths, ...goalsDocs.paths, ...metricsDocs.paths };
+        const schemes = { ...usuariosDocs.components.schemas, ...entrenamientosDocs.components.schemas , ...goalsDocs.components.schemas, ...metricsDocs.components.schemas };
         swaggerDocumentMerged.components = {
             securitySchemes: {
                 "Authorization": {
