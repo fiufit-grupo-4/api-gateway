@@ -1,6 +1,7 @@
 const { USER_ROUTES } = require("./user-routes");
 const { TRAINING_ROUTES } = require("./training-routes");
 const { GOALS_ROUTES } = require("./goals-routes");
+const { METRICS_ROUTES } = require("./metrics-routes");
 const { setupLogging } = require("./logging");
 const { setupProxies } = require("./proxy");
 const { setupAuth } = require("./auth");
@@ -27,6 +28,9 @@ setupProxies(app, TRAINING_ROUTES);
 
 setupAuth(app, GOALS_ROUTES);
 setupProxies(app, GOALS_ROUTES);
+
+setupAuth(app, METRICS_ROUTES);
+setupProxies(app, METRICS_ROUTES);
 
 
 app.listen(port, () => {
