@@ -97,6 +97,30 @@ const USER_ROUTES = [
             }
         }
     },
+    {
+        url: '/notifications/message/send',
+        auth: true,
+        role: UserRoles.ATLETA,
+        proxy: {
+            target: `${userMicroserviceTarget}/notifications/message/send`,
+            changeOrigin: true,
+            pathRewrite: {
+                [`^/notifications/message/send`]: '',
+            },
+        }
+    },
+    {
+        url: '/notifications/goal/completed/send',
+        auth: true,
+        role: UserRoles.ATLETA,
+        proxy: {
+            target: `${userMicroserviceTarget}/notifications/goal/completed/send`,
+            changeOrigin: true,
+            pathRewrite: {
+                [`^/notifications/goal/completed/send`]: '',
+            },
+        }
+    },
 ]
 
 exports.USER_ROUTES = USER_ROUTES;
